@@ -116,3 +116,7 @@ That env exists because the OpenPOM stack depends on `dgl`, which needed a Pytho
 - topology smoke test with H1 gated behind package availability
 - RDKit baseline features for Aim 2
 - first official POM embedding export from a restored OpenPOM checkpoint
+
+## License
+
+This repository is released under the MIT License. See [LICENSE](/Users/oboh/bio-research/odor-topology/LICENSE).
