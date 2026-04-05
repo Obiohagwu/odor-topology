@@ -1,0 +1,15 @@
+{
+  "dataset_path": "/Users/oboh/bio-research/odor-topology/data/raw/openpom_goodscent_leffingwell.csv",
+  "embedding_path": "/Users/oboh/bio-research/odor-topology/data/raw/openpom_embedding.npy",
+  "embedding_key": "",
+  "id_column": "molecule_id",
+  "smiles_column": "smiles",
+  "label_columns": [],
+  "ignore_columns": [
+    "name",
+    "source"
+  ],
+  "family_min_count": 50,
+  "top_k_families": 20,
+  "random_seed": 0
+}

@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+.venv311/
+data/raw/*
+data/processed/*
+outputs/reports/*
+outputs/figures/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!outputs/reports/.gitkeep
+!outputs/figures/.gitkeep
+configs/project_config.json
