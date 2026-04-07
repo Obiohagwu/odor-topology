@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import warnings
+from contextlib import contextmanager
+
 import numpy as np
 import pandas as pd
 
 try:
-    from rdkit import Chem, DataStructs
+    from rdkit import Chem, DataStructs, RDLogger
     from rdkit.Chem import AllChem, Descriptors, Lipinski, rdMolDescriptors
 except ImportError as exc:  # pragma: no cover
     raise ImportError(
@@ -24,6 +27,17 @@ PHYS_CHEM_DESCRIPTOR_FNS = {
     "heavy_atom_count": Lipinski.HeavyAtomCount,
     "fraction_csp3": Lipinski.FractionCSP3,
 }
+
+
+@contextmanager
+def suppress_rdkit_morgan_deprecation() -> None:
+    RDLogger.DisableLog("rdApp.warning")
+    try:
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message="please use MorganGenerator")
+            yield
+    finally:
+        RDLogger.EnableLog("rdApp.warning")
 
 
 def mol_from_smiles(smiles: str):
@@ -61,7 +75,7 @@ def build_physchem_descriptors(smiles_series: pd.Series) -> tuple[pd.DataFrame, 
     return pd.DataFrame(valid_rows), pd.DataFrame(invalid_rows)
 
 
-def build_morgan_fingerprints(
+def build_morgan_bit_fingerprints(
     smiles_series: pd.Series,
     radius: int = 2,
     n_bits: int = 2048,
@@ -75,7 +89,8 @@ def build_morgan_fingerprints(
                 {"row_index": idx, "smiles": smiles, "is_valid": False}
             )
             continue
-        bitvect = AllChem.GetMorganFingerprintAsBitVect(mol, radius, nBits=n_bits)
+        with suppress_rdkit_morgan_deprecation():
+            bitvect = AllChem.GetMorganFingerprintAsBitVect(mol, radius, nBits=n_bits)
         array = np.zeros((n_bits,), dtype=np.uint8)
         DataStructs.ConvertToNumpyArray(bitvect, array)
         fingerprint_rows.append(array)
@@ -85,3 +100,42 @@ def build_morgan_fingerprints(
     else:
         matrix = np.empty((0, n_bits), dtype=np.uint8)
     return matrix, pd.DataFrame(metadata_rows)
+
+
+def build_morgan_count_fingerprints(
+    smiles_series: pd.Series,
+    radius: int = 4,
+    n_bits: int = 2048,
+) -> tuple[np.ndarray, pd.DataFrame]:
+    fingerprint_rows: list[np.ndarray] = []
+    metadata_rows: list[dict[str, object]] = []
+    for idx, smiles in smiles_series.items():
+        mol = mol_from_smiles(smiles)
+        if mol is None:
+            metadata_rows.append(
+                {"row_index": idx, "smiles": smiles, "is_valid": False}
+            )
+            continue
+        with suppress_rdkit_morgan_deprecation():
+            count_vect = AllChem.GetHashedMorganFingerprint(mol, radius, nBits=n_bits)
+        array = np.zeros((n_bits,), dtype=np.int32)
+        DataStructs.ConvertToNumpyArray(count_vect, array)
+        fingerprint_rows.append(array)
+        metadata_rows.append({"row_index": idx, "smiles": smiles, "is_valid": True})
+    if fingerprint_rows:
+        matrix = np.stack(fingerprint_rows, axis=0)
+    else:
+        matrix = np.empty((0, n_bits), dtype=np.int32)
+    return matrix, pd.DataFrame(metadata_rows)
+
+
+def build_morgan_fingerprints(
+    smiles_series: pd.Series,
+    radius: int = 2,
+    n_bits: int = 2048,
+) -> tuple[np.ndarray, pd.DataFrame]:
+    return build_morgan_bit_fingerprints(
+        smiles_series=smiles_series,
+        radius=radius,
+        n_bits=n_bits,
+    )

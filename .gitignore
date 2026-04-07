@@ -12,3 +12,4 @@ outputs/figures/*
 !outputs/reports/.gitkeep
 !outputs/figures/.gitkeep
 configs/project_config.json
+arxiv.zip

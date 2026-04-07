@@ -1,0 +1,12 @@
+{
+  "dataset_path": "/Users/oboh/bio-research/olfaction/data/datasets/chemprop_gs_lf_filtered.csv",
+  "embedding_path": "/Users/oboh/bio-research/odor-topology/data/processed/openpom_embeddings_exp1_gslf5862.npy",
+  "embedding_key": "",
+  "id_column": "smiles",
+  "smiles_column": "smiles",
+  "label_columns": [],
+  "ignore_columns": [],
+  "family_min_count": 50,
+  "top_k_families": 20,
+  "random_seed": 0
+}

@@ -43,8 +43,9 @@ def main() -> None:
     report["dataset_path"] = str(config.dataset_path)
     report["label_columns_inferred"] = not bool(config.label_columns)
 
-    report_path = PROJECT_ROOT / "outputs" / "reports" / "dataset_audit.json"
-    freq_path = PROJECT_ROOT / "outputs" / "reports" / "label_frequencies.csv"
+    dataset_stem = Path(config.dataset_path).stem
+    report_path = PROJECT_ROOT / "outputs" / "reports" / f"{dataset_stem}_dataset_audit.json"
+    freq_path = PROJECT_ROOT / "outputs" / "reports" / f"{dataset_stem}_label_frequencies.csv"
 
     report_path.write_text(json.dumps(report, indent=2))
     frequency_table.to_csv(freq_path, index=False)
