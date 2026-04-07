@@ -45,6 +45,7 @@ Key reports:
 - applicability and positioning note: `/Users/oboh/bio-research/odor-topology/APPLICABILITY_AND_POSITIONING_NOTE.md`
 
 The current arXiv package is source-ready but was not compiled locally because this machine does not currently have a TeX toolchain installed.
+It now includes inline references, populated author metadata, and a clean local upload bundle at `/Users/oboh/bio-research/odor-topology/arxiv.zip`.
 
 ## Project Layout
 

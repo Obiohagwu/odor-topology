@@ -7,6 +7,12 @@ This directory contains an arXiv-oriented source draft for the odor-topology ana
 - `main.tex`: manuscript source
 - `figures/`: generated figure assets used by the manuscript
 
+The manuscript currently includes:
+
+- filled-in author metadata derived from the local git config
+- an inline bibliography so the arXiv bundle does not depend on an external `.bib` or `.bbl`
+- direct figure references that resolve within this directory
+
 ## Regenerate figures
 
 Run:
@@ -28,7 +34,17 @@ pdflatex main.tex
 pdflatex main.tex
 ```
 
-## Final submission edits
+## Upload packaging
 
-- replace the placeholder author line in `main.tex`
-- add external literature citations if desired before upload
+To build a clean upload zip from the repo root without macOS metadata files:
+
+```bash
+cd /Users/oboh/bio-research/odor-topology
+zip -r arxiv.zip arxiv -x "*/.DS_Store"
+```
+
+## Final submission checks
+
+- verify the author name and email in `main.tex` match your preferred public metadata
+- compile the TeX source once a TeX toolchain is available
+- inspect the generated PDF for line breaks, figure placement, and hyperlink formatting

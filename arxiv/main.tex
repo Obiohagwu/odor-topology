@@ -8,8 +8,8 @@
 \usepackage{amsmath}
 
 \title{Robust but Not Unique:\\Topological Signal in Learned Odor Embeddings Under Baseline and Utility Controls}
-\author{Author Name(s)}
-\date{\today}
+\author{Obiohagwu\\\texttt{obiohagwu8@gmail.com}}
+\date{April 7, 2026}
 
 \begin{document}
 \maketitle
@@ -19,6 +19,8 @@ Persistent homology has become a tempting way to assign geometric meaning to lea
 \end{abstract}
 
 \section{Introduction}
+
+Persistent homology has become a standard topological tool for asking whether a point cloud contains robust multi-scale structure rather than only metric geometry \cite{edelsbrunner2008persistent,ghrist2008barcodes}. In olfaction, the Principal Odor Map (POM) introduced by Lee et al.\ provides a learned odor-relevant molecular representation that appears to organize perceptual relationships more effectively than standard chemoinformatic baselines \cite{lee2023pom}. The OpenPOM software package makes it possible to audit that representational story directly in an open workflow \cite{barsainyan2023openpom}.
 
 The motivating question in this project is deliberately narrow: if a learned odor representation appears to show persistent first-homology structure, does that signal survive reasonable robustness checks, and is it meaningfully more informative than matched chemical baselines? This is a more defensible goal than claiming that persistent homology has revealed ``the topology of odor space.'' The contribution here is therefore analytical rather than mechanistic. The project assembles a reproducible comparison pipeline, stress-tests the signal across datasets and checkpoints, and makes explicit which claims are supported and which are not.
 
@@ -42,7 +44,9 @@ The main robustness statistic was the ratio between the observed top-$1$ $H_1$ p
   \item greedy-landmark distance-matrix analyses as a second route that weakens dependence on one specific full-matrix construction.
 \end{itemize}
 
-Utility was evaluated separately by constructing local neighborhood feature tables and comparing ridge-regression models built from geometry-only, topology-only, and geometry-plus-topology feature blocks. The utility targets were neighborhood-level odor-label summaries rather than downstream molecular design tasks.
+The metric and null choices were matched to representation family. Continuous POM and physicochemical descriptor spaces were analyzed with Euclidean and/or cosine geometry and compared against coordinate-permutation and covariance-matched Gaussian nulls. Bit-based Morgan fingerprints \cite{morgan1965generation} were analyzed under Jaccard distance with fixed-margin swap, prevalence-matched Bernoulli, and coordinate-permutation nulls. Count-based Morgan fingerprints used generalized Tanimoto distance with row-sum-matched multinomial and coordinate-permutation nulls. Persistent-homology calculations were run with Ripser \cite{bauer2021ripser}, and chemical descriptors and fingerprints were built with RDKit \cite{landrum2006rdkit}.
+
+Utility was evaluated separately by constructing local neighborhood feature tables and comparing ridge-regression models built from geometry-only, topology-only, and geometry-plus-topology feature blocks. The utility targets were neighborhood-level odor-label summaries rather than downstream molecular design tasks. Evaluation used repeated 5-fold cross-validation with three repeats and shared splits across feature blocks so that geometry-only versus geometry-plus-topology comparisons remained paired.
 
 \section{Results}
 
@@ -156,10 +160,56 @@ This study is strongest as a representation audit. It remains limited by its nar
 
 \section{Reproducibility}
 
-This manuscript is tied directly to repository artifacts rather than an ad hoc notebook narrative. The figures in this draft are generated from CSV and JSON reports in \texttt{outputs/reports/} via \texttt{scripts/14\_make\_arxiv\_figures.py}. The current arXiv source bundle is stored in \texttt{arxiv/}. Because the local machine used for packaging did not have a TeX toolchain installed, this draft was prepared as source without local PDF compilation.
+This manuscript is tied directly to repository artifacts rather than an ad hoc notebook narrative. The figures in this draft are generated from CSV and JSON reports in \texttt{outputs/reports/} via \texttt{scripts/14\_make\_arxiv\_figures.py}. The repository snapshot associated with this draft is available at \url{https://github.com/Obiohagwu/odor-topology}. The current arXiv source bundle is stored in \texttt{arxiv/}. Because the local machine used for packaging did not have a TeX toolchain installed, this draft was prepared as source without local PDF compilation.
 
 \section{Conclusion}
 
 The main conclusion is intentionally modest. Topological data analysis does reveal reproducible structure in learned odor embeddings, and that signal is stable enough to merit attention. At the same time, robust signal is not uniquely attributable to POM, and practical utility gains remain conditional. The value of this work is therefore not in claiming a new theory of odor space. Its value is in clarifying what the current evidence does and does not justify, while providing a reusable evaluation pipeline for future representation studies.
+
+\begin{thebibliography}{9}
+
+\bibitem{lee2023pom}
+B. K. Lee, E. J. Mayhew, B. Sanchez-Lengeling, J. N. Wei, W. W. Qian, K. A. Little, M. Andres, B. B. Nguyen, T. Moloy, J. Yasonik, J. K. Parker, R. C. Gerkin, J. D. Mainland, and A. B. Wiltschko.
+\newblock A principal odor map unifies diverse tasks in olfactory perception.
+\newblock \emph{Science}, 381(6661):999--1006, 2023.
+\newblock doi: \href{https://doi.org/10.1126/science.ade4401}{10.1126/science.ade4401}.
+
+\bibitem{barsainyan2023openpom}
+A. A. Barsainyan, R. Kumar, P. Saha, and M. Schmuker.
+\newblock OpenPOM: open-source principal odor map models for olfaction.
+\newblock Software repository, 2023.
+\newblock \url{https://github.com/BioMachineLearning/openpom}. Accessed April 7, 2026.
+
+\bibitem{edelsbrunner2008persistent}
+H. Edelsbrunner and J. Harer.
+\newblock Persistent homology---a survey.
+\newblock In J. E. Goodman, J. Pach, and R. Pollack, editors, \emph{Surveys on Discrete and Computational Geometry: Twenty Years Later}, volume 453 of \emph{Contemporary Mathematics}, pages 257--282. American Mathematical Society, 2008.
+\newblock doi: \href{https://doi.org/10.1090/conm/453/08802}{10.1090/conm/453/08802}.
+
+\bibitem{ghrist2008barcodes}
+R. Ghrist.
+\newblock Barcodes: the persistent topology of data.
+\newblock \emph{Bulletin of the American Mathematical Society}, 45(1):61--75, 2008.
+\newblock doi: \href{https://doi.org/10.1090/S0273-0979-07-01191-3}{10.1090/S0273-0979-07-01191-3}.
+
+\bibitem{morgan1965generation}
+H. L. Morgan.
+\newblock The generation of a unique machine description for chemical structures---a technique developed at Chemical Abstracts Service.
+\newblock \emph{Journal of Chemical Documentation}, 5(2):107--113, 1965.
+\newblock doi: \href{https://doi.org/10.1021/c160017a018}{10.1021/c160017a018}.
+
+\bibitem{bauer2021ripser}
+U. Bauer.
+\newblock Ripser: efficient computation of Vietoris--Rips persistence barcodes.
+\newblock \emph{Journal of Applied and Computational Topology}, 5:391--423, 2021.
+\newblock doi: \href{https://doi.org/10.1007/s41468-021-00071-5}{10.1007/s41468-021-00071-5}.
+
+\bibitem{landrum2006rdkit}
+G. Landrum et al.
+\newblock RDKit: Open-source cheminformatics software.
+\newblock \url{https://www.rdkit.org}, 2006--.
+\newblock Accessed April 7, 2026.
+
+\end{thebibliography}
 
 \end{document}

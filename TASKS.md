@@ -45,8 +45,8 @@
 
 ## Now
 
-- [ ] Replace the placeholder author line in `arxiv/main.tex`
-- [ ] Add external literature citations before upload
+- [x] Replace the placeholder author line in `arxiv/main.tex`
+- [x] Add external literature citations before upload
 - [ ] Compile the TeX bundle once a TeX toolchain is available
 - [ ] Add feature-matching or persistence-image style stability beyond top-k persistence magnitudes
 - [ ] Decide whether to add a second utility model family beyond ridge regression
