@@ -1,6 +1,9 @@
 # Applicability And Positioning Note
 
 ## Why This Note Exists
+I know some really annoying money types will ask, "ok but applicability?"
+
+well here it is. 
 
 The current odor-topology project is primarily an analysis and evaluation effort. It does **not** yet show that topological data analysis directly improves molecule generation, reinforcement learning, or synthetic discovery. That said, the work can still be positioned as an enabling layer for those directions.
 
@@ -9,15 +12,12 @@ This note is meant to do two things at once:
 1. explain the strongest honest applicability story;
 2. make that story legible and interesting to collaborators who care about generation, representation learning, active learning, or multimodal molecular modeling.
 
-The right framing is not:
 
-> "TDA solved odor design."
-
-The right framing is closer to:
+Framing:
 
 > "We built a controlled pipeline for identifying when a molecular representation has stable nontrivial structure, when that structure is not unique, and when local topological features might add useful information beyond local geometry. That kind of audit can inform better representation engineering, exploration, and data acquisition."
 
-## Executive Summary
+## Summary
 
 The most meaningful future applicability of this work is likely **representation engineering**, not direct one-shot prediction. If a representation exhibits stable, reproducible, and task-relevant topological structure, that can in principle help us:
 
